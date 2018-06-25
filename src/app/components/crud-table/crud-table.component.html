@@ -1,0 +1,113 @@
+<div class="container">
+    <form class="dateSpan responsive-table" [formGroup]="dateForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col s12 m4 l4">
+                <input matInput [matDatepicker]="start" formControlName="startDate" placeholder="Choose Start Date">
+                <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+                <mat-datepicker #start></mat-datepicker>
+                <span class="error" *ngIf="!dateForm.controls['startDate'].valid && dateForm.controls['startDate'].touched">Start date is required</span>
+            </div>
+
+            <div class="col s12 m4 l4">
+                <input matInput [matDatepicker]="end" formControlName="endDate" placeholder="Choose End Date">
+                <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+                <mat-datepicker #end></mat-datepicker>
+                <span class="error" *ngIf="!dateForm.controls['endDate'].valid && dateForm.controls['endDate'].touched">End date is required</span>
+            </div>
+            <div class="col s12 m4 l4">
+                <div class="filterBtn">
+                    <button class="btn waves-effect waves-light" [disabled]="!dateForm.valid">Filter</button>
+                </div>
+            </div>
+        
+        </div>
+    </form>
+    <br><br><br>
+    <div class="row">
+        <div class="col s12 m3 l3">
+            <button class="btn waves-effect waves-light" (click)="readData()">Load Data</button>
+        </div>
+        <div class="col s12 m3 l3" *ngIf="reset">
+            <button class="btn waves-effect waves-light" (click)="resetPage()">Reset</button>
+        </div>
+    </div>
+    <table class="responsive-table">
+        <thead>
+            <tr>
+                <th>Id 
+                    <button (click)="sortDataArray('id')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th>City
+                    <button (click)="sortDataArray('city')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th>Start Date
+                    <button (click)="sortDataArray('start_date')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th>End Date
+                    <button (click)="sortDataArray('end_date')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th>Price
+                    <button (click)="sortDataArray('price')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th>Status
+                    <button (click)="sortDataArray('status')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th>Color
+                    <button (click)="sortDataArray('color')" class="sortBtn">
+                        <i class="material-icons">{{iconVariable}}</i>
+                    </button>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <tr *ngFor="let data of dataSource | paginate: { itemsPerPage: 10, currentPage: pages }">
+                <td>{{data.id}}</td>
+                <td>{{data.city}}</td>
+                <td>{{data.start_date | dateFormat}}</td>
+                <td>{{data.end_date | dateFormat}}</td>
+                <td>{{data.price}}</td>
+                <td>{{data.status}}</td>
+                <td>
+                    <input type="color" value="{{data.color}}" /> {{data.color}}
+                </td>
+                <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" class="sortBtn">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="editItemComponent(data._id)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteItem(data._id)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                        </button>
+                    </mat-menu>
+                               
+                </td>
+
+            </tr>
+            <tr *ngIf="dataSource.length <= 0">
+                <span>No data found</span>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="pages > 0" class="divPagination">
+        <pagination-controls (pageChange)="pages = $event"></pagination-controls>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+div {
+    max-width: 1200px;
+    align-content: center !important;
+    margin: 0 auto;
+}
+table {
+    width: 100%;
+    margin-top: 40px !important;
+}
+
+.sortBtn {
+    background: none !important;
+    border: none !important;
+    height: 10px;
+}
+
+.divPagination {
+    float: right;
+}
+
+.dateSpan {
+    display: inline-block;
+    align-content: center !important;
+    margin: 0 auto !important;
+}
+
+.filterBtn{
+    margin-top: 20px;
+}
+
+.error{
+    color: red;
+}
